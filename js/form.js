@@ -12,7 +12,11 @@ botao.addEventListener("click", function(event)
     // Extraindo informacoes do formulario
     var paciente = obtemPacienteFormulario(form);
 
-    console.log(paciente);
+    if(!validaPaciente(paciente))
+    {
+        console.log("Paciente Inválido!");   
+        return;
+    }
 
     // Cria <tr> e <td> 
     var pacienteTr = montarTr(paciente);
@@ -61,4 +65,15 @@ function montaTd(dado, classe)
     td.classList.add(classe);
 
     return td;
+}
+
+function validaPaciente(paciente)
+{
+    if(validaPeso(paciente.peso))
+    {
+        return true;
+    } else
+    {
+        return false;
+    }
 }
