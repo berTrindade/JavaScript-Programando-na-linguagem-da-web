@@ -12,9 +12,13 @@ botao.addEventListener("click", function(event)
     // Extraindo informacoes do formulario
     var paciente = obtemPacienteFormulario(form);
 
-    if(!validaPaciente(paciente))
+    var erros = validaPaciente(paciente);
+
+    console.log(erros);
+
+    if(erros.length > 0)
     {
-        console.log("Paciente Inválido!");   
+        exibeMensagemDeErro(erros);
         return;
     }
 
@@ -26,8 +30,28 @@ botao.addEventListener("click", function(event)
     
     tabela.appendChild(pacienteTr);
 
+    /*
+     Com a propriedade innerHTML, podemos editar obter o conteúdo HTML (HTML interno) de um elemento.
+     O seu retorno será todo o conteúdo HTML, tanto tags, atributos, classes, etc, no formato de uma String.
+     */
+    document.querySelector("#mensagens-erro").innerHTML = "";
+
     form.reset();
 });
+
+function exibeMensagemDeErro(erros)
+{
+    var ul = document.querySelector("#mensagens-erro");
+    ul.innerHTML = "";
+
+    erros.forEach(function(erro)
+    {
+        var li = document.createElement("li");
+        li.textContent = erro;
+        ul.appendChild(li);
+    });
+
+}
 
 function obtemPacienteFormulario(form)
 {
@@ -69,11 +93,25 @@ function montaTd(dado, classe)
 
 function validaPaciente(paciente)
 {
-    if(validaPeso(paciente.peso))
-    {
-        return true;
-    } else
-    {
-        return false;
-    }
+    var erros = [];
+
+    if(paciente.nome.length == 0)
+        erros.push("O nome não pode ser em branco!");
+
+    if(!validaPeso(paciente.peso))
+        erros.push("O peso é inválido!");
+    
+    if(!validaAltura(paciente.altura))
+        erros.push("A altura é inválida!");
+
+    if(paciente.gordura.length == 0)
+        erros.push("A gordura não pode ser em branco!");
+
+    if(paciente.peso.length == 0)
+        erros.push("O peso não pode ser em branco!");
+    
+    if(paciente.altura.length == 0)
+        erros.push("A altura não pode ser em branco!");
+
+    return erros;
 }
