@@ -22,13 +22,7 @@ botao.addEventListener("click", function(event)
         return;
     }
 
-    // Cria <tr> e <td> 
-    var pacienteTr = montarTr(paciente);
-
-    // Adicionando paciente na tabela
-    var tabela = document.querySelector("#tabela-pacientes");
-    
-    tabela.appendChild(pacienteTr);
+    adicionaPacienteNaTabela(paciente);
 
     /*
      Com a propriedade innerHTML, podemos editar obter o conteúdo HTML (HTML interno) de um elemento.
@@ -38,6 +32,17 @@ botao.addEventListener("click", function(event)
 
     form.reset();
 });
+
+function adicionaPacienteNaTabela(paciente)
+{
+    // Cria <tr> e <td> 
+    var pacienteTr = montarTr(paciente);
+
+    // Adicionando paciente na tabela
+    var tabela = document.querySelector("#tabela-pacientes");
+    
+    tabela.appendChild(pacienteTr);
+}
 
 function exibeMensagemDeErro(erros)
 {
