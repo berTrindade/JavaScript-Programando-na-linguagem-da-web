@@ -12,14 +12,34 @@ botaoAdicionar.addEventListener("click", function()
 
     xhr.addEventListener("load", function()
     {
-        var resposta = xhr.responseText;
-        var pacientes = JSON.parse(resposta);
-        // console.log(typeof pacientes);
+        // Se a requisição retornar qualquer erro, devemos remover a classe invisivel do <span>, 
+        // tornando a mensagem de erro visível para o usuário. Remova a classe invisivel caso o código não seja 200, 
+        // e volte a adicionar caso a requisição não dê nenhum erro
 
-        pacientes.forEach(function(paciente)
+        var erroAjax = document.querySelector("#erro-ajax");
+
+        if(xhr.status == 200)
         {
-            adicionaPacienteNaTabela(paciente);
-        });
+            erroAjax.classList.add("invisivel");
+
+            var resposta = xhr.responseText;
+
+            // Converte JSON para um objeto Javascript 
+            var pacientes = JSON.parse(resposta);
+            
+            // console.log(typeof pacientes);
+    
+            pacientes.forEach(function(paciente)
+            {
+                adicionaPacienteNaTabela(paciente);
+            });
+        } else
+        {
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+
+            erroAjax.classList.remove("invisivel");
+        }
     });
 
     xhr.send();
